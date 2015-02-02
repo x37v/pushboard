@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'ri_cal'
 require 'open-uri'
 require 'tzinfo'
