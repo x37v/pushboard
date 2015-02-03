@@ -28,7 +28,7 @@ open(addr) do |cal|
 end
 
 dformat = "%a %b %d"
-tformat = "%I:00%p"
+tformat = "%I:%M%p"
 
 dlast = nil
 
