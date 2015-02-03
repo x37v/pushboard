@@ -8,6 +8,7 @@ require 'date'
 day_start = "Monday"
 day_length = 7
 tzid = "America/Los_Angeles"
+filename = ARGV[0] || "latest.txt"
 
 def date_of_next(day)
   date  = Date.parse(day)
@@ -50,29 +51,31 @@ end
 events.sort! { |a, b| a.dtstart <=> b.dtstart }
 
 now = DateTime.now
-puts "generated: #{now.strftime(dformat + ' %Y')} #{now.strftime('%I:%M%p')}"
+File.open(filename, "w") do |f|
+  f.puts "generated: #{now.strftime(dformat + ' %Y')} #{now.strftime('%I:%M%p')}"
 
-events.each do |event|
-  s = event.dtstart
-  e = event.dtend
+  events.each do |event|
+    s = event.dtstart
+    e = event.dtend
 
-  d = s.strftime(dformat)
-  if d != dlast
-    puts "\n================"
-    puts "#{d}"
-    puts "================\n\n"
-    dlast = d
-  else
-    puts "\n------------------------\n\n"
+    d = s.strftime(dformat)
+    if d != dlast
+      f.puts "\n================"
+      f.puts "#{d}"
+      f.puts "================\n\n"
+      dlast = d
+    else
+      f.puts "\n------------------------\n\n"
+    end
+    f.puts "#{event.summary}"
+    f.puts "#{event.location}"
+    st = s.strftime(tformat)
+    et = e.strftime(tformat)
+    if st != et
+      f.puts "#{st} - #{et}"
+    else
+      f.puts "#{st}"
+    end
+    f.puts "#{event.description}" if event.description.size > 0
   end
-  puts "#{event.summary}"
-  puts "#{event.location}"
-  st = s.strftime(tformat)
-  et = e.strftime(tformat)
-  if st != et
-    puts "#{st} - #{et}"
-  else
-    puts "#{st}"
-  end
-  puts "#{event.description}" if event.description.size > 0
 end
