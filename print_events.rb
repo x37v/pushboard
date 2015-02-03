@@ -3,11 +3,20 @@
 require 'ri_cal'
 require 'open-uri'
 require 'tzinfo'
+require 'date'
 
-rstart = Date.new(2015, 2, 2)
-rend = rstart + 7
-
+day_start = "Monday"
+day_length = 7
 tzid = "America/Los_Angeles"
+
+def date_of_next(day)
+  date  = Date.parse(day)
+  delta = date >= Date.today ? 0 : 7
+  date + delta
+end
+
+rstart = date_of_next("Monday")
+rend = rstart + day_length
 
 calendars = nil
 addr = "https://www.google.com/calendar/ical/pushboardportland%40gmail.com/public/basic.ics" 
@@ -40,6 +49,9 @@ end
 
 events.sort! { |a, b| a.dtstart <=> b.dtstart }
 
+now = DateTime.now
+puts "generated: #{now.strftime(dformat + ' %Y')} #{now.strftime('%I:%M%p')}"
+
 events.each do |event|
   s = event.dtstart
   e = event.dtend
@@ -54,6 +66,7 @@ events.each do |event|
     puts "\n------------------------\n\n"
   end
   puts "#{event.summary}"
+  puts "#{event.location}"
   st = s.strftime(tformat)
   et = e.strftime(tformat)
   if st != et
