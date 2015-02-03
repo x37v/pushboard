@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
 require 'ri_cal'
 require 'open-uri'
 require 'tzinfo'
