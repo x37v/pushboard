@@ -28,7 +28,7 @@ open(addr) do |cal|
 end
 
 dformat = "%a %b %d"
-tformat = "%I%p"
+tformat = "%I:00%p"
 
 dlast = nil
 
@@ -66,17 +66,11 @@ File.open(filename, "w") do |f|
       f.puts "================\n\n"
       dlast = d
     else
-      f.puts "\n------------------------\n\n"
+      f.puts "------------------------"
     end
-    f.puts "#{event.summary}"
-    f.puts "#{event.location}"
-    st = s.strftime(tformat)
-    et = e.strftime(tformat)
-    if st != et
-      f.puts "#{st} - #{et}"
-    else
-      f.puts "#{st}"
-    end
+    st = s.strftime(tformat).sub(/\A0/, "")
+    f.puts "#{st} #{event.summary}"
+    f.puts "#{event.location.sub(/, Portland.*/, "")}"
     f.puts "#{event.description}" if event.description.size > 0
   end
 end
