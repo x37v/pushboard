@@ -66,7 +66,7 @@ File.open(filename, "w") do |f|
       f.puts "================\n\n"
       dlast = d
     else
-      f.puts "------------------------"
+      f.puts "\n"
     end
     st = s.strftime(tformat).sub(/\A0/, "")
     f.puts "#{st} #{event.summary}"
