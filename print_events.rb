@@ -27,7 +27,7 @@ open(addr) do |cal|
   calendars = RiCal.parse(cal)
 end
 
-dformat = "%a %b %d"
+dformat = "%A, %B %d"
 tformat = "%I:%M%p"
 
 dlast = nil
