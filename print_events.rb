@@ -37,8 +37,14 @@ tz = TZInfo::Timezone.get(tzid)
 events = []
 calendars.each do |calendar|
   calendar.events.each do |event|
-    s = tz.utc_to_local(event.dtstart)
-    e = tz.utc_to_local(event.dtend || event.dtstart)
+    s = event.dtstart
+    e = event.dtend || event.dtstart
+
+    s = DateTime.parse(s.to_s) if s.is_a?(Date)
+    e = DateTime.parse(e.to_s) if e.is_a?(Date)
+
+    s = tz.utc_to_local(s)
+    e = tz.utc_to_local(e)
 
     if (s >= rstart and e < rend)
       #update time zone
