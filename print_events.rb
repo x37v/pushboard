@@ -67,16 +67,19 @@ File.open(filename, "w") do |f|
 
     d = s.strftime(dformat)
     if d != dlast
-      f.puts "\n================"
-      f.puts "#{d}"
-      f.puts "================\n\n"
+      f.puts "\n<strong>\n================"
+      f.puts "<br>#{d}"
+      f.puts "<br>================\n</strong>\n\n"
       dlast = d
     else
       f.puts "\n"
     end
+    f.puts "<p>"
     st = s.strftime(tformat).sub(/\A0/, "")
-    f.puts "#{st} #{event.summary}"
-    f.puts "#{event.location.sub(/, Portland.*/, "")}"
-    f.puts "#{event.description}" if event.description.size > 0
+    f.puts "<span style='color:rgb(255,255,255);background-color:rgb(0,0,0)'>#{st}</span> #{event.summary}"
+
+    f.puts "<br>#{event.location.sub(/, Portland.*/, "")}"
+    f.puts "<br>#{event.description}" if event.description.size > 0
+    f.puts "</p>"
   end
 end
