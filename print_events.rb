@@ -59,7 +59,7 @@ events.sort! { |a, b| a.dtstart <=> b.dtstart }
 
 now = DateTime.now
 File.open(filename, "w") do |f|
-  f.puts "generated: #{now.strftime(dformat + ' %Y')} #{now.strftime('%I:%M%p')}"
+  f.puts "<!-- generated: #{now.strftime(dformat + ' %Y')} #{now.strftime('%I:%M%p')}-->"
 
   events.each do |event|
     s = event.dtstart
