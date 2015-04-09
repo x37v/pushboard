@@ -9,7 +9,7 @@ require 'date'
 day_start = "Monday"
 day_length = 7
 tzid = "America/Los_Angeles"
-filename = ARGV[0] || "latest.txt"
+filename = ARGV[0] || "latest.html"
 
 def date_of_next(day)
   date  = Date.parse(day)
@@ -18,6 +18,7 @@ def date_of_next(day)
 end
 
 rstart = date_of_next("Monday")
+#rstart = Date.today - 7
 rend = rstart + day_length
 
 calendars = nil
@@ -59,7 +60,11 @@ events.sort! { |a, b| a.dtstart <=> b.dtstart }
 
 now = DateTime.now
 File.open(filename, "w") do |f|
+  #f.puts "<html><head><title>PUSHBOARD</title></head>"
+  #f.puts "<body>"
   f.puts "<!-- generated: #{now.strftime(dformat + ' %Y')} #{now.strftime('%I:%M%p')}-->"
+
+  f.puts "<div style='font-family:monospace'>"
 
   events.each do |event|
     s = event.dtstart
@@ -67,9 +72,9 @@ File.open(filename, "w") do |f|
 
     d = s.strftime(dformat)
     if d != dlast
-      f.puts "\n<strong>\n================"
+      f.puts "\n<h3><strong>\n================"
       f.puts "<br>#{d}"
-      f.puts "<br>================\n</strong>\n\n"
+      f.puts "<br>================\n</strong></h3>\n\n"
       dlast = d
     else
       f.puts "\n"
@@ -79,7 +84,12 @@ File.open(filename, "w") do |f|
     f.puts "<span style='color:rgb(255,255,255);background-color:rgb(0,0,0)'>#{st}</span> #{event.summary}"
 
     f.puts "<br>#{event.location.sub(/, Portland.*/, "")}"
-    f.puts "<br>#{event.description}" if event.description.size > 0
+    if event.description.size > 0
+      des = event.description.split(/\n/).join("<br>")
+      f.puts "<br>#{des}"
+    end
     f.puts "</p>"
   end
+  f.puts "</div>"
+  #f.puts "</body>\n</html>"
 end
