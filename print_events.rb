@@ -17,8 +17,8 @@ def date_of_next(day)
   date + delta
 end
 
-rstart = date_of_next("Monday")
-#rstart = Date.today - 7
+#rstart = date_of_next("Monday")
+rstart = Date.today
 rend = rstart + day_length
 
 calendars = nil
