@@ -83,8 +83,10 @@ File.open(filename, "w") do |f|
     st = s.strftime(tformat).sub(/\A0/, "")
     f.puts "<span style='color:rgb(255,255,255);background-color:rgb(0,0,0)'>#{st}</span> #{event.summary}"
 
-    f.puts "<br>#{event.location.sub(/, Portland.*/, "")}"
-    if event.description.size > 0
+    if event.location
+      f.puts "<br>#{event.location.sub(/, Portland.*/, "")}"
+    end
+    if event.description and event.description.size > 0
       des = event.description.split(/\n/).join("<br>")
       f.puts "<br>#{des}"
     end
